@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   Home,
@@ -6,28 +7,38 @@ import {
   Settings,
   LogOut,
   FileText,
+  ShieldCheck, // Adding a new icon for RBAC Admin
 } from "lucide-react";
 import { useAppContext } from "@/context/AppContext";
+import { useRBAC } from "@/context/RBACContext"; // Import RBAC context
 import { mockCategories } from "@/services/mockData";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Sidebar = () => {
   const { activeView, setActiveView, setIsAuthenticated } = useAppContext();
+  const { hasPrivilege } = useRBAC(); // Use hasPrivilege method
   const { categoryId } = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
 
+  // Dynamically add RBAC Admin to nav items if user has manage_users privilege
   const navItems = [
     { icon: Home, label: "Home", id: "home" },
     { icon: MessageSquare, label: "Chat", id: "chat" },
     { icon: Search, label: "Search", id: "search" },
     { icon: Settings, label: "Settings", id: "settings" },
+    // Conditionally render RBAC Admin nav item
+    ...(hasPrivilege('user_1', 'manage_users') 
+      ? [{ icon: ShieldCheck, label: "RBAC Admin", id: "rbac_admin" }] 
+      : [])
   ];
 
-  const handleNavClick = (id: "chat" | "search" | "home" | "settings") => {
+  const handleNavClick = (id: "chat" | "search" | "home" | "settings" | "rbac_admin") => {
     setActiveView(id);
 
-    if (categoryId) {
+    if (id === "rbac_admin") {
+      navigate("/admin/rbac");
+    } else if (categoryId) {
       navigate("/"); // Go back to main page when switching from category view
     }
   };
@@ -55,9 +66,7 @@ const Sidebar = () => {
         {navItems.map((item) => (
           <button
             key={item.id}
-            onClick={() =>
-              handleNavClick(item.id as "chat" | "search" | "home" | "settings")
-            }
+            onClick={() => handleNavClick(item.id as any)}
             className={cn(
               "flex items-center gap-3 px-3 py-2.5 rounded-md w-full text-left mb-1 transition-colors",
               activeView === item.id && !categoryId
