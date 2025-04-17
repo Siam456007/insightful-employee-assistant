@@ -12,11 +12,12 @@ import HomeContent from '@/components/HomeContent';
 import SettingsView from '@/components/SettingsView';
 import CategoryView from '@/components/CategoryView';
 import DocumentModal from '@/components/DocumentModal';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const MainContent = () => {
   const { activeView, selectedDocument, setSelectedDocument, setActiveView } = useAppContext();
   const { categoryId } = useParams<{ categoryId: string }>();
+  const navigate = useNavigate();
   
   // Update active view based on route
   useEffect(() => {
@@ -24,6 +25,13 @@ const MainContent = () => {
       setActiveView('category');
     }
   }, [categoryId, setActiveView]);
+
+  // Handle navigation to RBAC Admin when that view is selected
+  useEffect(() => {
+    if (activeView === 'rbac_admin') {
+      navigate('/rbac-admin');
+    }
+  }, [activeView, navigate]);
 
   return (
     <div className="flex flex-col flex-1 h-screen">
@@ -45,6 +53,9 @@ const MainContent = () => {
           <SettingsView />
         ) : activeView === 'category' ? (
           <CategoryView />
+        ) : activeView === 'rbac_admin' ? (
+          // This was causing the TS error, we need an explicit check for 'rbac_admin'
+          <div className="p-4">Redirecting to RBAC Admin...</div>
         ) : (
           <HomeContent />
         )}
@@ -63,12 +74,10 @@ const MainContent = () => {
 
 const Index = () => {
   return (
-    <AppProvider>
-      <div className="flex h-screen w-full">
-        <Sidebar />
-        <MainContent />
-      </div>
-    </AppProvider>
+    <div className="flex h-screen w-full">
+      <Sidebar />
+      <MainContent />
+    </div>
   );
 };
 

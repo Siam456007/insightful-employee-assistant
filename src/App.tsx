@@ -56,6 +56,14 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/rbac-admin/*"
+        element={
+          <ProtectedRoute>
+            <RBACAdmin />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Auth Routes */}
       <Route path="/" element={<AuthLayout />}>

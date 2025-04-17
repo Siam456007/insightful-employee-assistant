@@ -28,8 +28,14 @@ const Sidebar = () => {
     { icon: Settings, label: "Settings", id: "settings" },
   ];
 
-  const handleNavClick = (id: "chat" | "search" | "home" | "settings") => {
-    setActiveView(id);
+  // Add RBAC Admin item if user has the privilege
+  const currentUserId = "user_1"; // For demo purposes, using the admin user
+  if (hasPrivilege(currentUserId, "manage_users")) {
+    navItems.push({ icon: ShieldCheck, label: "RBAC Admin", id: "rbac_admin" });
+  }
+
+  const handleNavClick = (id: string) => {
+    setActiveView(id as any);
   };
 
   const handleCategoryClick = (categoryName: string) => {
