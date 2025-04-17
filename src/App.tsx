@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +15,7 @@ import OTPVerification from "./pages/OTPVerification";
 import { useAppContext } from "./context/AppContext";
 import { AppProvider } from "./context/AppContext";
 import { RBACProvider } from "./context/RBACContext";
+import RBACAdmin from "./pages/RBACAdmin"; // Import the new RBAC Admin page
 
 const queryClient = new QueryClient();
 
@@ -54,6 +56,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Index />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/rbac-admin/*"
+        element={
+          <ProtectedRoute>
+            <RBACAdmin />
           </ProtectedRoute>
         }
       />
