@@ -55,7 +55,7 @@ const Sidebar = () => {
         {navItems.map((item) => (
           <button
             key={item.id}
-            onClick={() => handleNavClick(item.id as any)}
+            onClick={() => handleNavClick(item.id as undefined)}
             className={cn(
               "flex items-center gap-3 px-3 py-2.5 rounded-md w-full text-left mb-1 transition-colors",
               activeView === item.id && !categoryId

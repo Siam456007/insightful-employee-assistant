@@ -13,7 +13,6 @@ import ResetPassword from "./pages/ResetPassword";
 import OTPVerification from "./pages/OTPVerification";
 import { useAppContext } from "./context/AppContext";
 import { AppProvider } from "./context/AppContext";
-import { RBACProvider } from "./context/RBACContext";
 
 const queryClient = new QueryClient();
 
@@ -112,13 +111,11 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AppProvider>
-        <RBACProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
-        </RBACProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
       </AppProvider>
     </TooltipProvider>
   </QueryClientProvider>
