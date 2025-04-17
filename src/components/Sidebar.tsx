@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Home,
@@ -27,20 +26,10 @@ const Sidebar = () => {
     { icon: MessageSquare, label: "Chat", id: "chat" },
     { icon: Search, label: "Search", id: "search" },
     { icon: Settings, label: "Settings", id: "settings" },
-    // Conditionally render RBAC Admin nav item
-    ...(hasPrivilege('user_1', 'manage_users') 
-      ? [{ icon: ShieldCheck, label: "RBAC Admin", id: "rbac_admin" }] 
-      : [])
   ];
 
-  const handleNavClick = (id: "chat" | "search" | "home" | "settings" | "rbac_admin") => {
+  const handleNavClick = (id: "chat" | "search" | "home" | "settings") => {
     setActiveView(id);
-
-    if (id === "rbac_admin") {
-      navigate("/admin/rbac");
-    } else if (categoryId) {
-      navigate("/"); // Go back to main page when switching from category view
-    }
   };
 
   const handleCategoryClick = (categoryName: string) => {
