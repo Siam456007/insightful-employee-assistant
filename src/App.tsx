@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +14,8 @@ import ResetPassword from "./pages/ResetPassword";
 import OTPVerification from "./pages/OTPVerification";
 import { useAppContext } from "./context/AppContext";
 import { AppProvider } from "./context/AppContext";
+import { RBACProvider } from "./context/RBACContext";
+import RBACAdmin from "./pages/admin/RBACAdmin";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +56,16 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <Index />
+          </ProtectedRoute>
+        }
+      />
+      
+      {/* Admin Routes */}
+      <Route
+        path="/admin/rbac"
+        element={
+          <ProtectedRoute>
+            <RBACAdmin />
           </ProtectedRoute>
         }
       />
@@ -111,11 +124,13 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AppProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+        <RBACProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </RBACProvider>
       </AppProvider>
     </TooltipProvider>
   </QueryClientProvider>
