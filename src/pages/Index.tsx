@@ -53,6 +53,9 @@ const MainContent = () => {
           <SettingsView />
         ) : activeView === 'category' ? (
           <CategoryView />
+        ) : activeView === 'rbac_admin' ? (
+          // This was causing the TS error, we need an explicit check for 'rbac_admin'
+          <div className="p-4">Redirecting to RBAC Admin...</div>
         ) : (
           <HomeContent />
         )}
